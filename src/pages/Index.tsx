@@ -5,16 +5,16 @@ import { Button } from "@/components/ui/button";
 import AnimatedSection, { useCounter } from "@/components/AnimatedSection";
 
 const features = [
-  { icon: Brain, title: "AI Delay Prediction", desc: "Predict transit delays using machine learning models trained on historical data.", gradient: "from-primary/20 to-primary/5" },
+  { icon: Brain, title: "Smart Delay Prediction", desc: "Predict transit delays using models trained on historical data.", gradient: "from-primary/20 to-primary/5" },
   { icon: MapPin, title: "Live Transit Tracking", desc: "Monitor buses, trains, and metro movement in real time on an interactive map.", gradient: "from-accent/20 to-accent/5" },
   { icon: CloudRain, title: "Traffic & Weather Insights", desc: "Understand how external conditions like rain and traffic jams affect transit.", gradient: "from-highlight/20 to-highlight/5" },
-  { icon: Route, title: "Smart Route Optimization", desc: "Find the most reliable travel route based on AI-powered analysis.", gradient: "from-success/20 to-success/5" },
+  { icon: Route, title: "Smart Route Optimization", desc: "Find the most reliable travel route based on our prediction engine.", gradient: "from-success/20 to-success/5" },
 ];
 
 const steps = [
   { num: "01", title: "Enter Route", desc: "Input your starting point and destination with preferred transport mode.", icon: Globe },
   { num: "02", title: "Data Collection", desc: "System gathers real-time transit, weather, and traffic data.", icon: Activity },
-  { num: "03", title: "AI Prediction", desc: "Machine learning models predict uncertainty and potential delays.", icon: Cpu },
+  { num: "03", title: "Engine Prediction", desc: "Advanced prediction models calculate uncertainty and potential delays.", icon: Cpu },
   { num: "04", title: "Optimized Result", desc: "Receive travel recommendations with confidence scores.", icon: Zap },
 ];
 
@@ -62,18 +62,9 @@ const Index = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full gradient-border bg-primary/5 mb-8 shimmer"
-            >
-              <Sparkles className="w-4 h-4 text-accent" />
-              <span className="text-sm text-foreground/80 font-medium">Powered by Machine Learning</span>
-            </motion.div>
-            
+
             <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold mb-6 leading-[1.05] tracking-tight">
-              <span className="text-foreground">AI Powered Transit</span>
+              <span className="text-foreground">Smart Transit</span>
               <br />
               <span className="gradient-text">Uncertainty Prediction</span>
             </h1>
@@ -84,7 +75,7 @@ const Index = () => {
               transition={{ delay: 0.4, duration: 0.8 }}
               className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed"
             >
-              Predict travel delays, estimate arrival times, and optimize transit routes using AI-powered analytics and real-time data.
+              Predict travel delays, estimate arrival times, and optimize transit routes using advanced analytics and real-time data.
             </motion.p>
             
             <motion.div
@@ -99,7 +90,7 @@ const Index = () => {
                 </Button>
               </Link>
               <Link to="/dashboard">
-                <Button size="lg" className="btn-outline-glow text-foreground px-8 rounded-xl h-12 text-base">
+                <Button size="lg" variant="outline" className="px-8 rounded-xl h-12 text-base border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors">
                   View Dashboard
                 </Button>
               </Link>
@@ -134,7 +125,7 @@ const Index = () => {
               <span className="text-sm text-accent font-medium">Core Features</span>
             </div>
             <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-5">Intelligent Transit Features</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto text-lg">Leveraging cutting-edge AI to transform public transportation prediction and optimization.</p>
+            <p className="text-muted-foreground max-w-xl mx-auto text-lg">Leveraging advanced engineering to transform public transportation prediction and optimization.</p>
           </AnimatedSection>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -165,7 +156,7 @@ const Index = () => {
               <span className="text-sm text-highlight font-medium">Process</span>
             </div>
             <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-5">How It Works</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto text-lg">Four simple steps to get AI-powered transit predictions.</p>
+            <p className="text-muted-foreground max-w-xl mx-auto text-lg">Four simple steps to get smart transit predictions.</p>
           </AnimatedSection>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
@@ -193,7 +184,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* AI Insights */}
+      {/* AI Insights Area (Removed mention of AI) */}
       <section className="py-28 relative">
         <div className="absolute inset-0 dot-bg opacity-20" />
         <div className="orb w-[300px] h-[300px] bg-accent/6 top-[20%] right-[5%]" style={{ animationDelay: "1s" }} />
@@ -203,7 +194,7 @@ const Index = () => {
               <Sparkles className="w-4 h-4 text-primary" />
               <span className="text-sm text-primary font-medium">Real-time Intelligence</span>
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-5">AI Insights</h2>
+            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-5">Live Insights</h2>
           </AnimatedSection>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
             {[
@@ -240,7 +231,7 @@ const Index = () => {
                   transition={{ duration: 0.6 }}
                 >
                   <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-5">Ready to Predict Your Commute?</h2>
-                  <p className="text-muted-foreground mb-10 max-w-lg mx-auto text-lg">Get started with AI-powered transit predictions and never be late again.</p>
+                  <p className="text-muted-foreground mb-10 max-w-lg mx-auto text-lg">Get started with smart transit predictions and never be late again.</p>
                   <Link to="/prediction">
                     <Button size="lg" className="btn-primary-glow text-primary-foreground px-10 gap-2 rounded-xl h-13 text-base">
                       Start Predicting <ArrowRight className="w-5 h-5" />

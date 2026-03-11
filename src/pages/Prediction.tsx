@@ -37,13 +37,13 @@ const Prediction = () => {
         <AnimatedSection className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/20 mb-6">
             <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm text-primary font-medium">AI Prediction Engine</span>
+            <span className="text-sm text-primary font-medium">Prediction Engine</span>
           </div>
           <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
             Transit <span className="gradient-text">Prediction</span>
           </h1>
           <p className="text-muted-foreground max-w-xl mx-auto text-lg">
-            Enter your route details and let AI predict travel time, delays, and optimal routes.
+            Enter your route details and compute your travel time, delays, and optimal routes.
           </p>
         </AnimatedSection>
 
@@ -98,7 +98,7 @@ const Prediction = () => {
               <Button
                 onClick={handlePredict}
                 disabled={loading}
-                className="w-full btn-primary-glow text-primary-foreground gap-2 rounded-xl h-12 text-base"
+                className="w-full text-primary-foreground gap-2 rounded-xl h-12 text-base"
                 size="lg"
               >
                 {loading ? (
@@ -140,7 +140,7 @@ const Prediction = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 * i, duration: 0.5 }}
                     >
-                      <div className={`metric-card hover:scale-[1.02] transition-transform duration-300 shadow-lg ${r.glow}`}>
+                      <div className={`border border-border bg-card rounded-2xl p-6 relative overflow-hidden transition-transform duration-300 shadow-sm ${r.glow}`}>
                         <r.icon className={`w-7 h-7 ${r.color} mb-3`} />
                         <div className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{r.label}</div>
                         <div className="text-3xl font-bold text-foreground mt-1">{r.value}</div>
@@ -153,7 +153,7 @@ const Prediction = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.5 }}
-                  className="glass-card p-6 gradient-border space-y-4"
+                  className="border border-border bg-card rounded-2xl p-6 space-y-4"
                 >
                   <div className="flex items-center gap-4 p-3 rounded-xl bg-primary/5 hover:bg-primary/8 transition-colors cursor-pointer">
                     <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">

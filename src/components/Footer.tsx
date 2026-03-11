@@ -14,7 +14,7 @@ const Footer = () => (
             <span className="font-bold text-lg text-foreground tracking-tight">AI Transit <span className="gradient-text">Predict</span></span>
           </div>
           <p className="text-muted-foreground text-sm max-w-md leading-relaxed">
-            AI-powered transit uncertainty prediction system. Forecasting delays, optimizing routes, and improving commuter experience through machine learning.
+            Advanced transit uncertainty prediction system. Forecasting delays, optimizing routes, and improving commuter experiences through data analytics.
           </p>
         </div>
         <div>
