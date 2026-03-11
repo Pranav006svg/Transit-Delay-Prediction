@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Train, Menu, X, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "./ThemeToggle";
 
 const navItems = [
   { label: "Home", path: "/" },
@@ -56,7 +57,8 @@ const Navbar = () => {
           ))}
         </div>
 
-        <div className="hidden lg:block">
+        <div className="hidden lg:block flex items-center gap-4">
+          <ThemeToggle />
           <Link to="/prediction">
             <Button className="btn-primary-glow text-primary-foreground text-sm px-5 gap-2 rounded-xl">
               <Sparkles className="w-3.5 h-3.5" /> Get Prediction
@@ -64,12 +66,15 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <button
-          className="lg:hidden text-foreground p-2 rounded-lg hover:bg-secondary/50 transition-colors"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
-          {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
+        <div className="lg:hidden flex items-center gap-2">
+          <ThemeToggle />
+          <button
+            className="text-foreground p-2 rounded-lg hover:bg-secondary/50 transition-colors"
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
+            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>

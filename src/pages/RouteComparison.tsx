@@ -36,14 +36,14 @@ const RouteComparison = () => {
             <span className="text-sm text-highlight font-medium">Smart Comparison</span>
           </div>
           <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-            Route <span className="gradient-text">Comparison</span>
+            Route <span className="text-primary">Comparison</span>
           </h1>
           <p className="text-muted-foreground max-w-xl mx-auto text-lg">Compare transit routes side by side and pick the most reliable option.</p>
         </AnimatedSection>
 
         <div className="max-w-xl mx-auto mb-10">
           <AnimatedSection delay={0.1}>
-            <div className="glass-card p-6 gradient-border flex flex-col sm:flex-row gap-4">
+            <div className="border border-border bg-card rounded-2xl p-6 flex flex-col sm:flex-row gap-4">
               <div className="flex-1 relative">
                 <MapPin className="absolute left-3.5 top-3 w-4 h-4 text-primary" />
                 <Input placeholder="Start Location" className="pl-11 bg-secondary/60 border-border/30 text-foreground h-11 rounded-xl" />
@@ -52,7 +52,7 @@ const RouteComparison = () => {
                 <MapPin className="absolute left-3.5 top-3 w-4 h-4 text-accent" />
                 <Input placeholder="Destination" className="pl-11 bg-secondary/60 border-border/30 text-foreground h-11 rounded-xl" />
               </div>
-              <Button onClick={handleCompare} disabled={loading} className="btn-primary-glow text-primary-foreground gap-2 rounded-xl h-11 px-6">
+              <Button onClick={handleCompare} disabled={loading} className="text-primary-foreground gap-2 rounded-xl h-11 px-6">
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <>Compare <ArrowRight className="w-4 h-4" /></>}
               </Button>
             </div>
@@ -93,7 +93,7 @@ const RouteComparison = () => {
                               {r.recommended && <CheckCircle className="w-5 h-5 text-success flex-shrink-0" />}
                               <div>
                                 <div className="text-foreground text-sm font-medium">{r.name}</div>
-                                {r.recommended && <span className="text-xs text-success font-medium">✨ AI Recommended</span>}
+                                {r.recommended && <span className="text-xs text-success font-medium">✨ Recommended Route</span>}
                               </div>
                             </div>
                           </td>

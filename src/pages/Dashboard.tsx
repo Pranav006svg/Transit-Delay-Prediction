@@ -76,16 +76,16 @@ const Dashboard = () => {
             <span className="text-sm text-primary font-medium">Live Analytics</span>
           </div>
           <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-            Analytics <span className="gradient-text">Dashboard</span>
+            Analytics <span className="text-primary">Dashboard</span>
           </h1>
           <p className="text-muted-foreground max-w-xl mx-auto text-lg">
-            AI-powered transit analytics with real-time performance metrics.
+            Advanced transit analytics with real-time performance metrics.
           </p>
         </AnimatedSection>
 
         {/* Tab switcher */}
         <AnimatedSection className="flex justify-center mb-10">
-          <div className="glass-card p-1 inline-flex gap-1 rounded-xl">
+          <div className="border border-border bg-secondary/50 p-1 inline-flex gap-1 rounded-xl">
             {(["overview", "traffic"] as const).map((tab) => (
               <button
                 key={tab}
@@ -123,18 +123,18 @@ const Dashboard = () => {
             {/* Charts */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
               <AnimatedSection delay={0.1}>
-                <div className="chart-card">
-                  <div className="flex items-center justify-between mb-6 relative z-10">
+                <div className="chart-card bg-secondary/20 p-4 md:p-6 rounded-2xl border border-border/40">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 relative z-10 gap-4">
                     <div className="flex items-center gap-2">
                       <TrendingUp className="w-5 h-5 text-primary" />
-                      <h3 className="font-semibold text-foreground">Delay vs. AI Prediction</h3>
+                      <h3 className="font-semibold text-foreground">Delay vs. Prediction</h3>
                     </div>
-                    <div className="flex gap-3 text-xs">
+                    <div className="flex flex-wrap gap-3 text-xs">
                       <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-primary" />Actual</span>
                       <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-accent" />Predicted</span>
                     </div>
                   </div>
-                  <div className="relative z-10">
+                  <div className="relative z-10 -ml-4 sm:ml-0">
                     <ResponsiveContainer width="100%" height={300}>
                       <AreaChart data={lineData}>
                         <defs>
@@ -160,12 +160,12 @@ const Dashboard = () => {
               </AnimatedSection>
 
               <AnimatedSection delay={0.2}>
-                <div className="chart-card">
+                <div className="chart-card bg-secondary/20 p-4 md:p-6 rounded-2xl border border-border/40">
                   <div className="flex items-center gap-2 mb-6 relative z-10">
                     <BarChart3 className="w-5 h-5 text-accent" />
                     <h3 className="font-semibold text-foreground">Peak Hour Delays</h3>
                   </div>
-                  <div className="relative z-10">
+                  <div className="relative z-10 -ml-4 sm:ml-0">
                     <ResponsiveContainer width="100%" height={300}>
                       <BarChart data={barData} barCategoryGap="20%">
                         <defs>
@@ -187,12 +187,12 @@ const Dashboard = () => {
             </div>
 
             <AnimatedSection delay={0.3}>
-              <div className="chart-card max-w-lg mx-auto">
+              <div className="chart-card bg-secondary/20 p-4 md:p-6 rounded-2xl border border-border/40 max-w-lg mx-auto w-full">
                 <div className="flex items-center justify-center gap-2 mb-4 relative z-10">
                   <Sparkles className="w-5 h-5 text-highlight" />
                   <h3 className="font-semibold text-foreground">Route Reliability</h3>
                 </div>
-                <div className="relative z-10">
+                <div className="relative z-10 -ml-4 sm:ml-0">
                   <ResponsiveContainer width="100%" height={280}>
                     <PieChart>
                       <defs>
@@ -216,12 +216,12 @@ const Dashboard = () => {
           </>
         ) : (
           <AnimatedSection>
-            <div className="chart-card">
+            <div className="chart-card bg-secondary/20 p-4 md:p-6 rounded-2xl border border-border/40 w-full overflow-hidden">
               <div className="flex items-center gap-2 mb-6 relative z-10">
                 <Activity className="w-5 h-5 text-highlight" />
                 <h3 className="font-semibold text-foreground">Weekly Traffic Impact Analysis</h3>
               </div>
-              <div className="relative z-10">
+              <div className="relative z-10 -ml-4 sm:ml-0">
                 <ResponsiveContainer width="100%" height={350}>
                   <AreaChart data={trafficData}>
                     <defs>
