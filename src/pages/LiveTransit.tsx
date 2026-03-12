@@ -3,10 +3,10 @@ import AnimatedSection from "@/components/AnimatedSection";
 import { motion } from "framer-motion";
 
 const vehicles = [
-  { type: "Bus", number: "45", location: "City Center", arrival: "8 min", status: "Slight Delay", statusColor: "text-warning", icon: Bus, pulse: true },
-  { type: "Metro", number: "Blue Line", location: "Central Station", arrival: "3 min", status: "On Time", statusColor: "text-success", icon: Train, pulse: false },
-  { type: "Bus", number: "12", location: "University Ave", arrival: "15 min", status: "On Time", statusColor: "text-success", icon: Bus, pulse: false },
-  { type: "Train", number: "Express 7", location: "North Terminal", arrival: "22 min", status: "Delayed", statusColor: "text-destructive", icon: Train, pulse: true },
+  { type: "Bus", number: "Route_7", location: "Station_12", arrival: "8 min", status: "Delayed", statusColor: "text-destructive", icon: Bus, pulse: true },
+  { type: "Metro", number: "Route_16", location: "Station_5", arrival: "3 min", status: "On Time", statusColor: "text-success", icon: Train, pulse: false },
+  { type: "Tram", number: "Route_4", location: "Station_27", arrival: "11 min", status: "On Time", statusColor: "text-success", icon: Bus, pulse: false },
+  { type: "Train", number: "Route_3", location: "Station_38", arrival: "18 min", status: "Delayed", statusColor: "text-destructive", icon: Train, pulse: true },
 ];
 
 const LiveTransit = () => {
@@ -75,10 +75,10 @@ const LiveTransit = () => {
               </div>
               <div className="absolute bottom-4 left-4 glass-card px-4 py-2.5 text-xs text-muted-foreground flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
-                Live — Connect API for real data
+                Live — Bus · Tram · Metro · Train tracked
               </div>
               <div className="absolute top-4 right-4 glass-card px-4 py-2.5 text-xs text-foreground font-mono">
-                4 vehicles tracked
+                4 transport types · 20 routes · 50 stations
               </div>
             </div>
           </AnimatedSection>
