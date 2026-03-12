@@ -104,10 +104,10 @@ const Index = () => {
             transition={{ duration: 0.8, delay: 0.8 }}
             className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-24 max-w-3xl mx-auto"
           >
-            <CounterStat value={98} suffix="%" label="Accuracy" icon={Zap} />
-            <CounterStat value={50} suffix="K+" label="Routes Analyzed" icon={Route} />
-            <CounterStat value={2} suffix="s" label="Response Time" icon={BarChart3} />
-            <CounterStat value={99} suffix=".9%" label="Uptime" icon={Shield} />
+            <CounterStat value={2} suffix="K+" label="Trips Analyzed" icon={BarChart3} />
+            <CounterStat value={20} suffix="" label="Routes Covered" icon={Route} />
+            <CounterStat value={68} suffix="%" label="ML Accuracy" icon={Zap} />
+            <CounterStat value={50} suffix="" label="Stations" icon={Shield} />
           </motion.div>
         </div>
 
@@ -198,10 +198,10 @@ const Index = () => {
           </AnimatedSection>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
             {[
-              { label: "Peak Delay Time", value: "6:00 – 7:30 PM", icon: "⏰", borderColor: "border-l-destructive" },
-              { label: "Most Reliable Route", value: "Metro Blue Line", icon: "🛤️", borderColor: "border-l-success" },
-              { label: "Weather Impact", value: "Moderate", icon: "🌤️", borderColor: "border-l-warning" },
-              { label: "Traffic Impact", value: "High", icon: "🚦", borderColor: "border-l-destructive" },
+              { label: "Peak Delay Hours", value: "7–9 AM · 5–7 PM", icon: "⏰", borderColor: "border-l-destructive" },
+              { label: "Most Reliable Route", value: "Route_16", icon: "🛤️", borderColor: "border-l-success" },
+              { label: "Worst Weather", value: "Storm (+18% delays)", icon: "🌩️", borderColor: "border-l-warning" },
+              { label: "Transport Modes", value: "Bus · Tram · Metro · Train", icon: "🚌", borderColor: "border-l-primary" },
             ].map((insight, i) => (
               <AnimatedSection key={insight.label} delay={i * 0.1}>
                 <div className={`glass-card-hover p-6 border-l-2 ${insight.borderColor}`}>
