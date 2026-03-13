@@ -7,20 +7,29 @@ const API_BASE = "http://localhost:8000";
 
 // ── Request / Response types ────────────────────────────────────────────────
 
+export type ModelName = "xgboost" | "neural_net" | "sklearn";
+
 export interface PredictRequest {
-  transport_type: string;        // Bus | Tram | Metro | Train
-  weather_condition: string;     // Clear | Rain | Storm | Snow | Fog | Cloudy
+  transport_type: string;           // Bus | Tram | Metro | Train
+  route_id?: string;               // Route_1 … Route_20
+  origin_station?: string;         // Station_1 … Station_50
+  destination_station?: string;    // Station_1 … Station_50
+  weather_condition: string;       // Clear | Rain | Storm | Snow | Fog | Cloudy
   temperature_C?: number;
   humidity_percent?: number;
   wind_speed_kmh?: number;
   precipitation_mm?: number;
-  event_type?: string;           // None | Sports | Concert | Festival | Protest | Parade
+  event_type?: string;             // None | Sports | Concert | Festival | Protest | Parade
+  event_attendance_est?: number;   // 0 when no event
   traffic_congestion_index?: number; // 0-100
-  peak_hour?: number;            // 0 | 1
-  season?: string;               // Winter | Spring | Summer | Autumn
-  holiday?: number;              // 0 | 1
-  weekday?: number;              // 0-6
-  hour?: number;                 // 0-23
+  peak_hour?: number;              // 0 | 1
+  season?: string;                 // Winter | Spring | Summer | Autumn
+  holiday?: number;                // 0 | 1
+  weekday?: number;                // 0-6
+  hour?: number;                   // 0-23
+  sched_dep_hour?: number;         // 0-23
+  sched_arr_hour?: number;         // 0-23
+  model?: ModelName;               // xgboost | neural_net | sklearn
 }
 
 export interface PredictResponse {
@@ -30,7 +39,16 @@ export interface PredictResponse {
   confidence: number;          // 0-100
   is_delayed: boolean;
   model_accuracy: number;
+  model_used?: ModelName;
 }
+
+export interface ModelInfo {
+  classifier_accuracy_pct: number;
+  regressor_mae_min: number;
+  description: string;
+}
+
+export type ModelsResponse = Record<ModelName, ModelInfo>;
 
 export interface RouteStats {
   route_id: string;
@@ -97,6 +115,9 @@ export const fetchRoutes = (): Promise<RouteStats[]> =>
 
 export const fetchMetadata = (): Promise<ApiMetadata> =>
   fetchJson<ApiMetadata>(`${API_BASE}/metadata`);
+
+export const fetchModels = (): Promise<ModelsResponse> =>
+  fetchJson<ModelsResponse>(`${API_BASE}/models`);
 
 // ── Client-side heuristic fallback (used when backend is offline) ─────────────
 

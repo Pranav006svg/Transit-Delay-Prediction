@@ -9,10 +9,11 @@ import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import AnimatedSection from "@/components/AnimatedSection";
-import { predictDelay, heuristicPredict, checkHealth, type PredictResponse } from "@/services/api";
+import { predictDelay, heuristicPredict, checkHealth, type PredictResponse, type ModelName } from "@/services/api";
 
-// ── Dataset-derived station list ──────────────────────────────────────────────
+// ── Dataset-derived station/route lists ─────────────────────────────────────
 const STATIONS = Array.from({ length: 50 }, (_, i) => `Station_${i + 1}`);
+const ROUTES = Array.from({ length: 20 }, (_, i) => `Route_${i + 1}`);
 const TRANSPORT_TYPES = ["Bus", "Tram", "Metro", "Train"];
 const WEATHER_CONDITIONS = ["Clear", "Cloudy", "Rain", "Storm", "Snow", "Fog"];
 const EVENT_TYPES = ["None", "Sports", "Concert", "Festival", "Parade", "Protest"];
@@ -37,15 +38,18 @@ const riskBg = (r: string) =>
 
 const Prediction = () => {
   const [apiOnline, setApiOnline] = useState<boolean | null>(null);
+  const [selectedModel, setSelectedModel] = useState<ModelName>("xgboost");
 
   // Form state
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
+  const [routeId, setRouteId] = useState("Route_1");
   const [transport, setTransport] = useState("Bus");
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [time, setTime] = useState("08:00");
   const [weather, setWeather] = useState("Clear");
   const [eventType, setEventType] = useState("None");
+  const [eventAttendance, setEventAttendance] = useState(0);
   const [traffic, setTraffic] = useState(50);
 
   // Result state
@@ -65,25 +69,32 @@ const Prediction = () => {
     const departureDate = new Date(`${date}T${time}:00`);
     const hour = departureDate.getHours();
 
+    const precipitation_mm = weather === "Storm" ? 15 : weather === "Rain" ? 8 : weather === "Snow" ? 5 : 0;
     const req = {
       transport_type: transport,
+      route_id: routeId,
+      origin_station: origin || "Station_1",
+      destination_station: destination || "Station_2",
       weather_condition: weather,
       event_type: eventType,
+      event_attendance_est: eventType !== "None" ? eventAttendance : 0,
       traffic_congestion_index: traffic,
       peak_hour: isPeakHour(hour) ? 1 : 0,
       season: getSeason(departureDate),
       weekday: departureDate.getDay(),
       hour,
+      sched_dep_hour: hour,
+      sched_arr_hour: Math.min(23, hour + 1),
       temperature_C: 20,
-      humidity_percent: 60,
-      wind_speed_kmh: 15,
-      precipitation_mm: weather === "Rain" || weather === "Storm" ? 8 : weather === "Snow" ? 5 : 0,
+      humidity_percent: weather === "Fog" || weather === "Rain" || weather === "Storm" ? 80 : 60,
+      wind_speed_kmh: weather === "Storm" ? 45 : weather === "Fog" ? 10 : 15,
+      precipitation_mm,
       holiday: 0,
     };
 
     try {
       if (apiOnline) {
-        const res = await predictDelay(req);
+        const res = await predictDelay({ ...req, model: selectedModel });
         setResult(res);
       } else {
         // Use client-side heuristic when backend is offline
@@ -116,8 +127,26 @@ const Prediction = () => {
             Transit <span className="gradient-text">Prediction</span>
           </h1>
           <p className="text-muted-foreground max-w-xl mx-auto text-lg">
-            Enter your route details and our ML model — trained on 35 000+ real trips — will predict delay probability and risk.
+            Enter your route details and choose a model — trained on real trips — to predict delay probability and risk.
           </p>
+          {/* Model selector */}
+          {apiOnline && (
+            <div className="inline-flex gap-2 mt-5 p-1 rounded-xl bg-secondary/60 border border-border/30">
+              {(["xgboost", "neural_net", "sklearn"] as ModelName[]).map((m) => (
+                <button
+                  key={m}
+                  onClick={() => setSelectedModel(m)}
+                  className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                    selectedModel === m
+                      ? "bg-primary text-primary-foreground shadow"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {m === "xgboost" ? "XGBoost" : m === "neural_net" ? "Neural Network" : "GradientBoost"}
+                </button>
+              ))}
+            </div>
+          )}
           {/* API status badge */}
           {apiOnline !== null && (
             <div className={`inline-flex items-center gap-1.5 mt-4 px-3 py-1 rounded-full text-xs font-medium ${apiOnline ? "bg-success/10 text-success" : "bg-muted/40 text-muted-foreground"}`}>
@@ -160,6 +189,22 @@ const Prediction = () => {
                       {STATIONS.filter((s) => s !== origin).map((s) => <option key={s} value={s}>{s}</option>)}
                     </select>
                   </div>
+                </div>
+              </div>
+
+              {/* Route selector */}
+              <div>
+                <label className="text-sm text-muted-foreground mb-2 block font-medium">
+                  <Route className="inline w-3.5 h-3.5 mr-1" />Route
+                </label>
+                <div className="relative">
+                  <select
+                    value={routeId}
+                    onChange={(e) => setRouteId(e.target.value)}
+                    className="w-full px-4 bg-secondary/60 border border-border/30 text-foreground h-11 rounded-xl text-sm focus:outline-none focus:border-primary/50 appearance-none"
+                  >
+                    {ROUTES.map((r) => <option key={r} value={r}>{r}</option>)}
+                  </select>
                 </div>
               </div>
 
@@ -215,7 +260,7 @@ const Prediction = () => {
                   <label className="text-sm text-muted-foreground mb-2 block font-medium">
                     <Activity className="inline w-3.5 h-3.5 mr-1" />Nearby Event
                   </label>
-                  <Select value={eventType} onValueChange={setEventType}>
+                  <Select value={eventType} onValueChange={(v) => { setEventType(v); if (v === "None") setEventAttendance(0); }}>
                     <SelectTrigger className="bg-secondary/60 border-border/30 text-foreground h-11 rounded-xl">
                       <SelectValue />
                     </SelectTrigger>
@@ -225,6 +270,24 @@ const Prediction = () => {
                   </Select>
                 </div>
               </div>
+
+              {/* Event attendance (only shown when event is active) */}
+              {eventType !== "None" && (
+                <div>
+                  <label className="text-sm text-muted-foreground mb-2 block font-medium">
+                    Estimated Event Attendance
+                  </label>
+                  <Input
+                    type="number"
+                    min={0}
+                    max={50000}
+                    value={eventAttendance}
+                    onChange={(e) => setEventAttendance(Math.max(0, parseInt(e.target.value) || 0))}
+                    placeholder="e.g. 5000"
+                    className="bg-secondary/60 border-border/30 text-foreground h-11 rounded-xl"
+                  />
+                </div>
+              )}
 
               {/* Traffic congestion slider */}
               <div>
@@ -272,16 +335,23 @@ const Prediction = () => {
                 transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
                 className="mt-10 space-y-6"
               >
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between flex-wrap gap-2">
                   <div className="flex items-center gap-2">
                     <Sparkles className="w-5 h-5 text-accent" />
                     <h3 className="text-xl font-bold text-foreground">Prediction Results</h3>
                   </div>
-                  {result.model_accuracy > 0 && (
-                    <span className="text-xs text-muted-foreground bg-secondary/50 px-3 py-1 rounded-full">
-                      Model Accuracy: <span className="text-foreground font-semibold">{result.model_accuracy}%</span>
-                    </span>
-                  )}
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {result.model_used && (
+                      <span className="text-xs font-semibold px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
+                        {result.model_used === "xgboost" ? "XGBoost" : result.model_used === "neural_net" ? "Neural Network" : "GradientBoost"}
+                      </span>
+                    )}
+                    {result.model_accuracy > 0 && (
+                      <span className="text-xs text-muted-foreground bg-secondary/50 px-3 py-1 rounded-full">
+                        Accuracy: <span className="text-foreground font-semibold">{result.model_accuracy}%</span>
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 {/* KPI cards */}
